@@ -6,14 +6,19 @@
 #include <arpa/inet.h>
 #include <errno.h>
 #include <unistd.h>
-
+#include <signal.h> 
 #define SA struct sockaddr
 #define DEFAULT_SERV_ADDR "192.168.1.107"
 #define DEFAULT_SERV_PORT 1111
-#define MAXLINE 10
+#define MAXLINE 1024
 
 ssize_t writen(int fd, const void *vptr, size_t n);
 void send_string(FILE *fp, int sockfd);
+volatile sig_atomic_t flag = 0;
+
+void my_sighandler(int sig){ // can be called asynchronously
+  flag = 1; // set flag
+}
 
 int main(int argc, char** argv) {
       printf("Hello, World! From Client\n");
@@ -23,6 +28,9 @@ int main(int argc, char** argv) {
 
       char servIP[]=DEFAULT_SERV_ADDR;
       in_port_t servport=DEFAULT_SERV_PORT;
+
+        // Register signals 
+         signal(SIGINT, my_sighandler); 
 
       /*if (argc != 3)
       {
@@ -56,10 +64,12 @@ int main(int argc, char** argv) {
       }
 
       //3. Read data from stdin and write to socket
-      for ( ; ;)
+      while (0==flag)
          send_string(stdin,sockfd);
       
-   return 0;
+   
+   close(sockfd);
+   exit(0);
 }
 
 void send_string(FILE *fp, int sockfd){
