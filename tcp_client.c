@@ -26,18 +26,19 @@ int main(int argc, char** argv) {
       int sockfd;
       struct sockaddr_in servaddr;
 
-      char servIP[]=DEFAULT_SERV_ADDR;
-      in_port_t servport=DEFAULT_SERV_PORT;
-
+      
         // Register signals 
          signal(SIGINT, my_sighandler); 
 
-      /*if (argc != 3)
+      if (argc != 3)
       {
          printf("usage: tcp_client <IP Address> <port #>\n");
          exit(0);
       }
-      */
+      
+      char *servIP=argv[1];
+      in_port_t servport=atoi(argv[2]);
+
 
 
       //1. Create master socket
@@ -63,6 +64,9 @@ int main(int argc, char** argv) {
          exit(0);
       }
 
+      //Success
+         printf("Connected to server (%s) on port (%d) succesfully!\n",servIP,servport);
+      
       //3. Read data from stdin and write to socket
       while (0==flag)
          send_string(stdin,sockfd);
