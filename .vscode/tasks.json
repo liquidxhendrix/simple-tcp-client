@@ -6,10 +6,12 @@
 			"label": "C/C++: gcc build active file",
 			"command": "/usr/bin/gcc",
 			"args": [
+				//"-L/usr/local/lib",
 				"-g",
-				"${file}",
+				"${fileDirname}/*.c",
+				"-lcjson",
 				"-o",
-				"${fileDirname}/${fileBasenameNoExtension}"
+				"${fileDirname}/${fileBasenameNoExtension}"				
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"

@@ -1,4 +1,9 @@
 #include "tcp_client.h"
+#include "shapetype.h"
+#include <time.h>
+
+extern void shapes_to_JSON(ShapeType *shapes, char *json_string, size_t size);
+extern void JSON_to_shapes(char *json_string,size_t size,ShapeType *shapes);
 
 void my_sighandler(int sig){ // can be called asynchronously
   flag = 1; // set flag
@@ -7,7 +12,28 @@ void my_sighandler(int sig){ // can be called asynchronously
 int main(int argc, char** argv) {
       printf("Hello, World! From Client\n");
 
-      int sockfd;
+/*
+      //#Task 2: for shapes
+      ShapeType shapetype;
+      shapetype.color="blue";
+      shapetype.x=1.53;
+      shapetype.y=5.26;
+      shapetype.shapesize=10.11;
+
+      //For testing JSON
+      shapes_to_JSON(&shapetype,send_buf,MAXLINE);
+
+      printf("Data->JSON: %s\n",send_buf);
+
+      ShapeType shapeConverted;
+
+      JSON_to_shapes(send_buf,MAXLINE,&shapeConverted);
+
+      printf("JSON->Data:\tcolor:%s,x=%lu,y=%lu,shapesize=%lu\n",shapeConverted.color,shapeConverted.x,shapeConverted.y,shapeConverted.shapesize);
+
+ */
+
+     int sockfd;
       struct sockaddr_in servaddr;
 
       
@@ -55,10 +81,29 @@ int main(int argc, char** argv) {
       //4. receive reply from server
      // while (0==flag)
      //{ 
-         send_string(stdin,sockfd);       
+        // For task 1
+        // send_string(stdin,sockfd);       
+
+        // Send a JSON shape
+        // TODO : Random shape based on command line input
+
+        ShapeType shapetype;
+        shapetype.color="blue";
+        shapetype.shapesize=10.11;
+
+        srand((unsigned)time(NULL));
+
+        while (1)
+        {
+            
+            shapetype.x=(float)rand()/RAND_MAX*255;
+            shapetype.y=(float)rand()/RAND_MAX*255;
+            send_shape(&shapetype,sockfd);
+            sleep(1);
+        }
+
 
       //}
-      
    
    close(sockfd);
    exit(0);
@@ -88,6 +133,32 @@ void send_string(FILE *fp, int sockfd){
                     printf("Input String to send:\n");
                 }
    }
+}
+
+void send_shape(ShapeType *shape,int sockfd){
+   char sendline[MAXLINE];
+
+  
+      shapes_to_JSON(shape,send_buf,MAXLINE);
+
+      printf("Sending\t\t:%s",send_buf);
+
+      //write to socket
+      
+      writen(sockfd, send_buf, strlen(send_buf));
+
+      if (0>=readline(sockfd,(void*) read_buf, sizeof (read_buf)))
+                {
+                    //Error or client terminated. return to main
+                    printf("Error or client terminated.\n");
+                  
+                    close(sockfd);
+                }else
+                {
+                    //echo to terminal. Can echo back if necessary
+                    printf("Received (ECHO)\t\t:%s\n",read_buf);
+                }
+
 }
 
 ssize_t writen(int fd, const void *vptr, size_t n){
@@ -156,7 +227,7 @@ ssize_t readline(int fd, void *vptr,size_t maxlen){
         }else if (0 == rc){
             return (0); //Client is closed
         }else
-            return (-1);    //Error
+            return (-1);    //Erro= cJSON_Print(monitor);r
     }
 
     *ptr = 0; //Append null at the end
