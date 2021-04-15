@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <signal.h> 
 #include "shapetype.h"
+#include "json_helper.h"
 
 #define SA struct sockaddr
 #define DEFAULT_SERV_ADDR "192.168.1.112"

@@ -8,10 +8,10 @@
 			"args": [
 				//"-L/usr/local/lib",
 				"-g",
-				"${fileDirname}/*.c",
+				"${workspaceFolder}/*.c",
 				"-lcjson",
 				"-o",
-				"${fileDirname}/${fileBasenameNoExtension}"				
+				"${workspaceFolder}/tcp_client"				
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"

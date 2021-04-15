@@ -1,12 +1,8 @@
-#include "shapetype.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <cjson/cJSON.h>
+#include "json_helper.h"
 
 void shapes_to_JSON(ShapeType *shapes, char *json_string,size_t size){
 
-
+/*
 char* curr=json_string;
 
 
@@ -20,9 +16,9 @@ curr+=snprintf(curr,size,",");
 curr+=snprintf(curr,size,"shapesize:%lu",shapes->shapesize);
 curr+=snprintf(curr,size,"}");
 curr+=snprintf(curr,size,"\n");
+*/
 
 
-/*
  cJSON *color = NULL;
  cJSON *x = NULL;
  cJSON *y = NULL;
@@ -85,5 +81,11 @@ shapes->color = color->valuestring;
 shapes->x = x->valuedouble;
 shapes->y = y->valuedouble;
 shapes->shapesize = shapesize->valuedouble;
-*/
+
+}
+
+void DumpShape(ShapeType *s){
+          
+      printf("ShapeType Struct:\tcolor:%s,x=%lu,y=%lu,shapesize=%lu\n",s->color,s->x,s->y,s->shapesize);
+
 }

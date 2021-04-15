@@ -2,12 +2,11 @@
 #include "shapetype.h"
 #include <time.h>
 
-extern void shapes_to_JSON(ShapeType *shapes, char *json_string, size_t size);
-extern void JSON_to_shapes(char *json_string,size_t size,ShapeType *shapes);
 
 void my_sighandler(int sig){ // can be called asynchronously
   flag = 1; // set flag
 }
+
 
 int main(int argc, char** argv) {
       printf("Hello, World! From Client\n");
@@ -138,14 +137,16 @@ void send_string(FILE *fp, int sockfd){
 void send_shape(ShapeType *shape,int sockfd){
    char sendline[MAXLINE];
 
+    ShapeType shapeConverted;
   
       shapes_to_JSON(shape,send_buf,MAXLINE);
 
-      printf("Sending\t\t:%s",send_buf);
+      printf("\n------------------------------\n");
+      printf("Sending\t\t:%s\n",send_buf);
 
       //write to socket
-      
-      writen(sockfd, send_buf, strlen(send_buf));
+      DumpShape(shape);
+      writen(sockfd, send_buf, strlen(send_buf)+1);
 
       if (0>=readline(sockfd,(void*) read_buf, sizeof (read_buf)))
                 {
@@ -157,7 +158,11 @@ void send_shape(ShapeType *shape,int sockfd){
                 {
                     //echo to terminal. Can echo back if necessary
                     printf("Received (ECHO)\t\t:%s\n",read_buf);
+                    JSON_to_shapes(send_buf,MAXLINE,&shapeConverted);
+                    DumpShape(&shapeConverted);
                 }
+    
+    printf("\n------------------------------\n");
 
 }
 
@@ -222,7 +227,7 @@ ssize_t readline(int fd, void *vptr,size_t maxlen){
         if ((rc = my_read(fd, &c) == 1)){
             //Successfully read 1 char
             *ptr++ = c;
-            if (c == '\n')
+            if (c == '\0')
                 break; //Newline is hit
         }else if (0 == rc){
             return (0); //Client is closed
