@@ -1,0 +1,41 @@
+[33mcommit 29e635118c77f57bd43f9b72662a56f479b30090[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Zhi Kai Lim <liquidxhendrix@gmail.com>
+Date:   Thu Apr 15 22:19:39 2021 +0800
+
+    (Completed Task 2) Sending data using JSON format
+
+[33mcommit 3c890e9c89d1a46b9c89843c32cf7f202baff8fc[m
+Author: Zhi Kai Lim <liquidxhendrix@gmail.com>
+Date:   Tue Apr 13 09:52:54 2021 +0800
+
+    Added functionality to send SHAPE with random values every 1 sec
+
+[33mcommit 94b74e86963cee506ebcb35abe29e07f8618c109[m
+Author: Zhi Kai Lim <liquidxhendrix@gmail.com>
+Date:   Mon Apr 12 08:38:30 2021 +0800
+
+    (Completed Task 1 Update) Updated to support ECHO back from server
+
+[33mcommit f5cd291d7a6224992e7450f62ee7762fe67b6319[m
+Author: Zhi Kai Lim <liquidxhendrix@gmail.com>
+Date:   Wed Apr 7 11:18:07 2021 +0800
+
+    (Task 1 completed) Added arguements to the command line to specify server IP and port
+
+[33mcommit de437969280ff3f475f24312f94d86220de78b51[m
+Author: Zhi Kai Lim <liquidxhendrix@gmail.com>
+Date:   Tue Mar 30 22:02:05 2021 +0800
+
+    fixed issue with write buffer size 10->1024
+
+[33mcommit fe1973a8401f2b4bc1c329c507f4b4bf43b4617b[m
+Author: Zhi Kai Lim <liquidxhendrix@gmail.com>
+Date:   Tue Mar 30 07:28:22 2021 +0800
+
+    Completed basic code. Todo: Add SIGNAL handling and double check exceptions
+
+[33mcommit aba7be0a229aaad6133a67bdda2113fe845b2197[m
+Author: Lim Zhi Kai <liquidxhendrix@gmail.com>
+Date:   Thu Mar 25 20:27:37 2021 +0700
+
+    Start

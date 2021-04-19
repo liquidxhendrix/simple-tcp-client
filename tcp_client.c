@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
 
       
         // Register signals 
-         signal(SIGINT, my_sighandler); 
+      //   signal(SIGINT, my_sighandler); 
 
       if (argc != 3)
       {
@@ -95,8 +95,9 @@ int main(int argc, char** argv) {
         while (1)
         {
             
-            shapetype.x=(float)rand()/RAND_MAX*255;
-            shapetype.y=(float)rand()/RAND_MAX*255;
+            shapetype.x=(double)rand()/(double)RAND_MAX*255;
+            shapetype.y=(double)rand()/(double)RAND_MAX*255;
+            shapetype.shapesize=(double)rand()/(double)RAND_MAX*20;
             send_shape(&shapetype,sockfd);
             sleep(1);
         }
