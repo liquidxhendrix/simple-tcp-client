@@ -32,26 +32,35 @@ int main(int argc, char** argv) {
 
  */
 
-     int sockfd;
-      struct sockaddr_in servaddr;
+    int sockfd;
+    struct sockaddr_in servaddr;
 
       
-        // Register signals 
+    // Register signals 
       //   signal(SIGINT, my_sighandler); 
 
-      if (argc != 3)
+      if (argc != 4)
       {
-         printf("usage: tcp_client <IP Address> <port #>\n");
+         printf("usage: tcp_client <IP Address> <port #> <t/u>\n");
          exit(0);
       }
       
       char *servIP=argv[1];
       in_port_t servport=atoi(argv[2]);
 
-
-
       //1. Create master socket
-      sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+      
+      if (0==strcmp(argv[3],"t")){
+          //tcp
+          sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+          
+      }else if(0==strcmp(argv[3],"u")){
+          //udp
+         sockfd = socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
+      }else{
+        printf("TCP/UDP type not specified, exiting\n");
+        exit(0);
+      }
 
       if (sockfd==-1)
       {
@@ -78,13 +87,7 @@ int main(int argc, char** argv) {
       
       //3. Read data from stdin and write to socket
       //4. receive reply from server
-     // while (0==flag)
-     //{ 
-        // For task 1
-        // send_string(stdin,sockfd);       
 
-        // Send a JSON shape
-        // TODO : Random shape based on command line input
 
         ShapeType shapetype;
         shapetype.color="blue";
@@ -98,6 +101,16 @@ int main(int argc, char** argv) {
             shapetype.x=(double)rand()/(double)RAND_MAX*255;
             shapetype.y=(double)rand()/(double)RAND_MAX*255;
             shapetype.shapesize=(double)rand()/(double)RAND_MAX*20;
+             if (0==strcmp(argv[3],"t")){
+            //tcp
+                printf("Sending by TCP..\n");
+            }else if(0==strcmp(argv[3],"u")){
+                //udp
+                printf("Sending by UDP..\n");
+                
+            }else{
+                printf("Sending by Unknown..\n");
+            }
             send_shape(&shapetype,sockfd);
             sleep(1);
         }
